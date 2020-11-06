@@ -21,11 +21,23 @@ public:
     void eliminar_final();
     void eliminar_inicio();
     void eliminar(size_t p);
-    size_t size();
+    
+    T* buscar(const T& v);
+    ArregloD<T*>buscar_todos(const T& v);
+    
+	size_t size();
     T operator[](size_t p)
     {
         return arreglo[p];
     }
+    
+    friend ArregloD<T>& operator<<(ArregloD<T> &a, const T& v)
+    {
+    	a.insertar_final(v);
+    	
+    	return a;
+	}
+	
 private:
     void expandir();
 };
@@ -121,6 +133,31 @@ void ArregloD<T>::eliminar(size_t p)
 	}
 	cont--;
 
+}
+
+
+template <class T>
+T* ArregloD<T>::buscar(const T& v)
+{
+	for (size_t i= 0; i < cont; i++){
+		if (v == arreglo[i]){
+			return &arreglo[i];
+		}
+	}
+	return nullptr;
+}
+
+template <class T>
+ArregloD<T*> ArregloD<T>::buscar_todos(const  T& v)
+{
+	ArregloD<T*> ptrs;
+	
+	for (size_t i= 0; i < cont; i++){
+		if (v == arreglo[i]){
+			ptrs.insertar_final(&arreglo[i]);
+		}
+	}
+	return ptrs;
 }	
 
 template <class T>
